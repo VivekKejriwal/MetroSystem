@@ -1,5 +1,8 @@
 package com.metro.service;
 
-public interface MetroService {
+import com.metro.beans.User;
 
+public interface MetroService {
+	public boolean userExists(int id);
+	public boolean setUserDetails(User user);
 }

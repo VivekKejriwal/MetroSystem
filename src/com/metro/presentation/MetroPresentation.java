@@ -40,6 +40,7 @@ public class MetroPresentation implements MetroPresentationInterface {
 
 			System.out.println("Successfuly created new metro card");
 			System.out.println("Your card id is: ");// user.getCard().getCardId());
+			
 			break;
 		case 2:
 			System.out.println("Enter your metro card id");
@@ -66,6 +67,7 @@ public class MetroPresentation implements MetroPresentationInterface {
 			} else {
 				System.out.println("Wrong id inserted");
 			}
+			
 			break;
 		case 3:
 			System.out.println("Enter your metro card id");

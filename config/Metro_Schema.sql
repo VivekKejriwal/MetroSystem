@@ -13,7 +13,7 @@ create table if not exists `stations`(
 create table if not exists `cards` (
   `card_id` int primary key not null,
   `user_id` int not null,
-  `balance` decimal default 0.00,
+  `balance` decimal,
    index (card_id),
    index(user_id)
 );
@@ -24,7 +24,6 @@ create table if not exists `user_details` (
   `last_name` varchar(30) not null,
   `address` nvarchar(255) not null,
   `phn_number` long not null,
-  `card_counter` int,
   index(user_id)
   
 );
@@ -40,7 +39,9 @@ create table if not exists `transaction_histories` (
   index(transaction_history_id)
 );
 
-ALTER TABLE `user_details` ADD FOREIGN KEY (`user_id`) REFERENCES `cards` (`user_id`);
+ALTER TABLE `cards` ADD FOREIGN KEY (`user_id`) REFERENCES `user_details` (`user_id`);
 ALTER TABLE `transaction_histories` ADD FOREIGN KEY (`boarded_station_id`) REFERENCES `stations` (`station_id`);
 ALTER TABLE `transaction_histories` ADD FOREIGN KEY (`destination_station_id`) REFERENCES `stations` (`station_id`);
 ALTER TABLE `transaction_histories` ADD FOREIGN KEY (`card_id`) REFERENCES `cards` (`card_id`);
+
+-- drop database metro;

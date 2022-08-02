@@ -6,6 +6,7 @@ create table if not exists `stations`(
 `station_id` int primary key not null auto_increment,
 `station_name` nvarchar(30) not null,
 `next_station_id` int,
+`prev_station_id` int,
  index (station_id)
 ); 
 

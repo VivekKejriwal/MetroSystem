@@ -16,5 +16,4 @@ public class User {
 	private String lastName;
 	private String address;
 	private long phoneNumber;
-	private int cardCounter;
 }

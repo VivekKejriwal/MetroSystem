@@ -6,6 +6,6 @@ import com.metro.beans.User;
 
 public interface MetroPersistence {
 
-	public List<User> getAllUsers();
+	public List<Integer> getAllUsers();
 	public boolean createUser(User user);
 }

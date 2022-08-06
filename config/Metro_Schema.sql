@@ -44,4 +44,10 @@ ALTER TABLE `transaction_histories` ADD FOREIGN KEY (`boarded_station_id`) REFER
 ALTER TABLE `transaction_histories` ADD FOREIGN KEY (`destination_station_id`) REFERENCES `stations` (`station_id`);
 ALTER TABLE `transaction_histories` ADD FOREIGN KEY (`card_id`) REFERENCES `cards` (`card_id`);
 
+insert into stations values(301,'Delhi',302,null);
+insert into stations values(302,'Mumbai',303,301);
+insert into stations values(303,'Kolkata',304,302);
+insert into stations values(304,'Chennai',305,303);
+insert into stations values(305,'Bangalore',null,304);
+
 -- drop database metro;

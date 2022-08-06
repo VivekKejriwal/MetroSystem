@@ -1,11 +1,19 @@
 package com.metro.persistence;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.metro.beans.User;
 
 public interface MetroPersistence {
 
-	public List<Integer> getAllUsers();
-	public boolean createUser(User user);
+	List<Integer> getAllUsers();
+	boolean createUser(User user);
+	int getCardIdFromUser(int userId);
+	List<String> getAllStations();
+	double getBalance(int cardId);
+	boolean addBalance(int cardId,double bal);
+	int getDifference(String src,String dest);
+	boolean deductBalance(int cardId,double bal);
+	void storeTransactionDetails(int cardId,String src,String dest,LocalDateTime swipeInTime,LocalDateTime swipeOuTime,double fare);
 }

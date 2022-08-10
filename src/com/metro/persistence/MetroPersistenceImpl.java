@@ -31,7 +31,7 @@ public class MetroPersistenceImpl implements MetroPersistence {
 	}
 
 	public void setSequence() {
-		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley");
+		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley123");
 				PreparedStatement preparedStatement = connection.prepareStatement("Select * from stations");) {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
@@ -48,7 +48,7 @@ public class MetroPersistenceImpl implements MetroPersistence {
 	@Override
 	public List<Integer> getAllUsers() {
 		List<Integer> listOfUserId = new ArrayList<>();
-		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley");
+		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley123");
 				PreparedStatement preparedStatement = connection.prepareStatement("Select * from user_details");) {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
@@ -66,7 +66,7 @@ public class MetroPersistenceImpl implements MetroPersistence {
 	@Override
 	public boolean createUser(User user) {
 		int rows1 = 0, rows2 = 0;
-		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley");
+		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley123");
 				PreparedStatement preparedStatement = connection
 						.prepareStatement("INSERT INTO user_details values(?,?,?,?,?)");
 				PreparedStatement preparedStatement1 = connection
@@ -100,7 +100,7 @@ public class MetroPersistenceImpl implements MetroPersistence {
 
 	private int currentMaxCardId() {
 		int result = -1;
-		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley");
+		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley123");
 				PreparedStatement preparedStatement = connection
 						.prepareStatement("select max(card_id) as 'id' from cards");) {
 
@@ -118,7 +118,7 @@ public class MetroPersistenceImpl implements MetroPersistence {
 	@Override
 	public int getCardIdFromUser(int userId) {
 		int result = -1;
-		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley");
+		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley123");
 				PreparedStatement preparedStatement = connection
 						.prepareStatement("select card_id as 'id' from cards where user_id = " + userId);) {
 
@@ -136,7 +136,7 @@ public class MetroPersistenceImpl implements MetroPersistence {
 	@Override
 	public List<String> getAllStations() {
 		List<String> stations = new ArrayList<>();
-		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley");
+		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley123");
 				PreparedStatement preparedStatement = connection
 						.prepareStatement("Select station_name as 'sn' from stations");) {
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -155,7 +155,7 @@ public class MetroPersistenceImpl implements MetroPersistence {
 	@Override
 	public double getBalance(int cardId) {
 		double result = -1;
-		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley");
+		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley123");
 				PreparedStatement preparedStatement = connection
 						.prepareStatement("select balance as 'bal' from cards where card_id= " + cardId);) {
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -170,7 +170,7 @@ public class MetroPersistenceImpl implements MetroPersistence {
 
 	@Override
 	public boolean addBalance(int cardId, double bal) {
-		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley");
+		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley123");
 				PreparedStatement preparedStatement = connection
 						.prepareStatement("update cards set balance = balance + ? where card_id= " + cardId);) {
 			preparedStatement.setDouble(1, bal);
@@ -197,7 +197,7 @@ public class MetroPersistenceImpl implements MetroPersistence {
 
 	@Override
 	public boolean deductBalance(int cardId, double bal) {
-		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley");
+		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley123");
 				PreparedStatement preparedStatement = connection
 						.prepareStatement("update cards set balance = balance - ? where card_id= " + cardId);) {
 			preparedStatement.setDouble(1, bal);
@@ -212,7 +212,7 @@ public class MetroPersistenceImpl implements MetroPersistence {
 	@Override
 	public void storeTransactionDetails(int cardId, String src, String dest, LocalDateTime swipeInTime,
 			LocalDateTime swipeOuTime, double fare) {
-		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley");
+		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley123");
 				PreparedStatement preparedStatement = connection
 						.prepareStatement("insert into transaction_histories values(?,?,?,?,?,?,?)");) {
 			preparedStatement.setInt(1, 0);
@@ -231,7 +231,7 @@ public class MetroPersistenceImpl implements MetroPersistence {
 	}
 
 	private int stationIdByName(String station) {
-		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley");
+		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley123");
 				PreparedStatement preparedStatement = connection
 						.prepareStatement("select station_id as 'si' from stations where station_name = ?");) {
 			preparedStatement.setString(1, station);

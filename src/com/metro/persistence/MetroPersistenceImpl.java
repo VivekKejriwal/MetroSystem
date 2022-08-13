@@ -68,7 +68,7 @@ public class MetroPersistenceImpl implements MetroPersistence {
 		int rows1 = 0, rows2 = 0;
 		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley");
 				PreparedStatement preparedStatement = connection
-						.prepareStatement("INSERT INTO user_details values(?,?,?,?,?)");
+						.prepareStatement("INSERT INTO user_details values(?,?,?,?,?,?,?)");
 				PreparedStatement preparedStatement1 = connection
 						.prepareStatement("INSERT INTO cards values(?,?,?)");) {
 			connection.setAutoCommit(false);
@@ -77,13 +77,17 @@ public class MetroPersistenceImpl implements MetroPersistence {
 			preparedStatement.setString(3, user.getLastName());
 			preparedStatement.setString(4, user.getAddress());
 			preparedStatement.setLong(5, user.getPhoneNumber());
+			preparedStatement.setString(6, user.getEmail());
+			preparedStatement.setString(7, user.getPassword());
 
 			rows1 = preparedStatement.executeUpdate();
 
 			int currentMaxId = currentMaxCardId();
+			int currentMaxUserId=currMaxUserId();
 
+			//user.setUserId(getUserId(user.getEmail(), user.getPassword()));
 			preparedStatement1.setInt(1, currentMaxId == 0 ? 201 : currentMaxId + 1);
-			preparedStatement1.setInt(2, user.getUserId());
+			preparedStatement1.setInt(2, currentMaxUserId ==0 ? 1 : currentMaxUserId + 1);
 			preparedStatement1.setDouble(3, 100);
 
 			user.setCard(new Card(currentMaxId == 0 ? 201 : currentMaxId + 1, 100));
@@ -103,6 +107,23 @@ public class MetroPersistenceImpl implements MetroPersistence {
 		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley");
 				PreparedStatement preparedStatement = connection
 						.prepareStatement("select max(card_id) as 'id' from cards");) {
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+			resultSet.next();
+			result = resultSet.getInt("id");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+	
+	private int currMaxUserId() {
+		int result = -1;
+		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley");
+				PreparedStatement preparedStatement = connection
+						.prepareStatement("select max(user_id) as 'id' from user_details");) {
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 			resultSet.next();
@@ -243,6 +264,59 @@ public class MetroPersistenceImpl implements MetroPersistence {
 			e.printStackTrace();
 		}
 		return -1;
+	}
+	
+	@Override
+	public List<String> getAllUserEmail(){
+		List<String> listOfUserEmail = new ArrayList<>();
+		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley");
+				PreparedStatement preparedStatement = connection.prepareStatement("Select * from user_details");) {
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				String email = resultSet.getString("email");
+				listOfUserEmail.add(email);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return listOfUserEmail;
+	}
+	
+	@Override
+	public boolean checkCredentials(String email,String pass){
+		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley");
+				PreparedStatement preparedStatement = connection.prepareStatement("Select count(*) as cnt from user_details where email=? and password=?");) {
+			preparedStatement.setString(1, email);
+			preparedStatement.setString(2, pass);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			resultSet.next();
+			if(resultSet.getInt("cnt")>0)
+				return true;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+
+	@Override
+	public int getUserId(String email, String pass) {
+		try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Metro", "root", "wiley");
+				PreparedStatement preparedStatement = connection.prepareStatement("Select user_id as id from user_details where email=? and password=?");) {
+			preparedStatement.setString(1, email);
+			preparedStatement.setString(2, pass);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			resultSet.next();
+			return resultSet.getInt("id");
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 }

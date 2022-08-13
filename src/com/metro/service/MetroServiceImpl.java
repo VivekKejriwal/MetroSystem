@@ -77,6 +77,26 @@ public class MetroServiceImpl implements MetroService{
 	public List<String> getAllStations() {
 		return metroPersistence.getAllStations();
 	}
+	
+	@Override
+	public boolean emailCheck(String email) {
+		List<String> users = metroPersistence.getAllUserEmail();
+		for (String user_email : users)
+			if (user_email.equals(email))
+				return true;
 
+		return false;
+	}
+
+	@Override
+	public boolean checkCredentials(String email,String pass) {
+		return metroPersistence.checkCredentials(email, pass);
+	}
+
+	@Override
+	public int getUserId(String email, String pass) {
+		
+		return metroPersistence.getUserId(email,pass);
+	}
 
 }

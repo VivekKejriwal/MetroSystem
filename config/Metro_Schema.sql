@@ -24,6 +24,8 @@ create table if not exists `user_details` (
   `last_name` varchar(30) not null,
   `address` nvarchar(255) not null,
   `phn_number` long not null,
+  `email` varchar(50) not null unique,
+  `password` varchar(30) not null,
   index(user_id)
   
 );
@@ -50,4 +52,8 @@ insert into stations values(303,'Kolkata',304,302);
 insert into stations values(304,'Chennai',305,303);
 insert into stations values(305,'Bangalore',null,304);
 
+-- select * from transaction_histories;
+-- select * from user_details;
+-- select * from cards;
+-- insert into user_details values(0,"adaf","dfg","dfgdfg",34534,"ail@gmail.com","pass");
 -- drop database metro;

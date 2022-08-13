@@ -14,49 +14,92 @@ public class MetroPresentationImpl implements MetroPresentation {
 	private MetroService metroService = new MetroServiceImpl();
 
 	@Override
-	public void chooseMenu() {
-		// TODO Auto-generated method stub
-		System.out.println("1. Register here if you are a new user");
-		System.out.println("2. Swipe in to the station");
-		System.out.println("3. Add balance to you card account");
-		System.out.println("4. Check balance of you card account");
-		System.out.println("5. To checkout");
+	public void login() {
+		System.out.println("-----------Welcome to the Metro System User Login Page-----------");
+		System.out.println("1. Sign up if you are a new user");
+		System.out.println("2. Log in if already an exsting user");
+		System.out.println("3. To exit");
 	}
-
+	
 	@Override
-	public void menu(int choice) {
-		// TODO Auto-generated method stub
+	public void loginMenu(int choice) {
 		Scanner sc = new Scanner(System.in);
 		switch (choice) {
 		case 1:
 			User user = new User();
-			System.out.println("Enter id");
-			int user_id = Integer.parseInt(sc.nextLine());
-			if (metroService.userExists(user_id)) {
-				System.out.println("User Already Exist");
-				break;
-			}
-			user.setUserId(user_id);
+			user.setUserId(0);
 			System.out.println("Enter your first name:");
 			user.setFirstName(sc.nextLine());
 			System.out.println("Enter your last name");
 			user.setLastName(sc.nextLine());
+			System.out.println("Enter your email");
+			user.setEmail(sc.nextLine());
+			if(metroService.emailCheck(user.getEmail())) {
+				System.out.println("Email already exists, please login or sign up with a different email");
+				break;
+			}
 			System.out.println("Enter your address");
 			user.setAddress(sc.nextLine());
 			System.out.println("Enter your phone number");
 			user.setPhoneNumber(Long.parseLong(sc.nextLine()));
+			System.out.println("Enter new password");
+			user.setPassword(sc.nextLine());
 
 			if (metroService.setUserDetails(user)) {
 				System.out.println("Successfuly created new metro card");
-				System.out.println("Your card id is: " + user.getCard().getCardId());// user.getCard().getCardId());
+				System.out.println("Your card id is: " + user.getCard().getCardId());
 			} else {
 				System.out.println("Something went wrong!!");
 			}
 
 			break;
 		case 2:
-			System.out.println("Enter your User id");
-			int userId = Integer.parseInt(sc.nextLine());
+			System.out.println("Enter your email");
+			String email=sc.nextLine();
+			System.out.println("Enter your password");
+			String pass=sc.nextLine();
+			if(!metroService.checkCredentials(email, pass)) {
+				System.out.println("Wrong credentials, please enter correct email or password");
+			}
+			else {
+				System.out.println("Successfully logged in.");
+				int userId=metroService.getUserId(email,pass);
+				while(chooseMenu(userId)!=4);
+			}
+			break;
+		case 3:
+			System.out.println("Thank you for using public metro for transport");
+			System.exit(0);
+		default:
+			System.out.println("Sorry you have entered the wrong choice");
+			break;
+			
+		}
+	}
+	
+	
+	/*=======================================Metro main menu================================================*/
+	
+	
+	@Override
+	public int chooseMenu(int userId) {
+		System.out.println("---------Welcome to Metro Services---------");
+		System.out.println("1. Swipe in to the station");
+		System.out.println("2. Add balance to you card account");
+		System.out.println("3. Check balance of you card account");
+		System.out.println("4. To log out");
+		System.out.println("-------Enter your choice-------");
+		
+		Scanner sc=new Scanner(System.in);
+		return menu(Integer.parseInt(sc.nextLine()),userId);
+	}
+
+	@Override
+	public int menu(int choice,int userId) {
+		// TODO Auto-generated method stub
+		Scanner sc = new Scanner(System.in);
+		switch (choice) {
+		case 1:
 			if (!metroService.userExists(userId)) {
 				System.out.println("Invalid User Id");
 				break;
@@ -86,10 +129,8 @@ public class MetroPresentationImpl implements MetroPresentation {
 			}
 
 			break;
-		case 3:
-			System.out.println("Enter your User id");
-			int UID = Integer.parseInt(sc.nextLine());
-			if (!metroService.userExists(UID)) {
+		case 2:
+			if (!metroService.userExists(userId)) {
 				System.out.println("Invalid User Id");
 				break;
 			}
@@ -99,32 +140,31 @@ public class MetroPresentationImpl implements MetroPresentation {
 				System.out.println("Invalid Amount!! Amount must be positive");
 				break;
 			}
-			if(metroService.addBalance(UID,amount)) {
+			if(metroService.addBalance(userId,amount)) {
 				System.out.println("Balance added Successfully!");
-				System.out.println("Your current balance is "+metroService.getBalance(UID));
+				System.out.println("Your current balance is "+metroService.getBalance(userId));
 			}
 			else {
 				System.out.println("Something went wrong!");
 			}
 
 			break;
-		case 4:
-			System.out.println("Enter your User id");
-			int uid = Integer.parseInt(sc.nextLine());
-			if (!metroService.userExists(uid)) {
+		case 3:
+			if (!metroService.userExists(userId)) {
 				System.out.println("Invalid User Id");
 				break;
 			}
-			System.out.println("Current balance of your card is: " + metroService.getBalance(uid));
+			System.out.println("Current balance of your card is: " + metroService.getBalance(userId));
 			break;
-		case 5:
-			System.out.println("Thank you for using public metro for transport");
-			System.exit(0);
+		case 4:
+			System.out.println("Successfully logged out");
+			return 4;
 		default:
 			System.out.println("Sorry you have entered the wrong choice");
 			break;
 		}
 
+		return 0;
 	}
 
 }

@@ -16,4 +16,7 @@ public interface MetroPersistence {
 	int getDifference(String src,String dest);
 	boolean deductBalance(int cardId,double bal);
 	void storeTransactionDetails(int cardId,String src,String dest,LocalDateTime swipeInTime,LocalDateTime swipeOuTime,double fare);
+	List<String> getAllUserEmail();
+	boolean checkCredentials(String email, String pass);
+	int getUserId(String email, String pass);
 }

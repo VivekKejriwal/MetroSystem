@@ -10,9 +10,8 @@ public class ClientMain {
 	public static void main(String[] args) {
 		MetroPresentation metroPresentation = new MetroPresentationImpl();
 		Scanner sc = new Scanner(System.in);
-		System.out.println("------------Welcome to Metro service----------");
 		while (true) {
-			metroPresentation.chooseMenu();
+			metroPresentation.login();
 			int choice = 0;
 			try {
 				choice = Integer.parseInt(sc.nextLine());
@@ -21,7 +20,7 @@ public class ClientMain {
 				System.out.println();
 				continue;
 			}
-			metroPresentation.menu(choice);
+			metroPresentation.loginMenu(choice);
 		}
 	}
 

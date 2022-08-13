@@ -16,4 +16,7 @@ public interface MetroService {
 	boolean addBalance(int userId,double bal);
 	boolean swipeOut(String src,String dest, int userId,LocalDateTime swipeInTime) throws InvalidStationException;
 	List<String> getAllStations();
+	boolean emailCheck(String email);
+	boolean checkCredentials(String email, String pass);
+	int getUserId(String email, String pass);
 }

@@ -1,6 +1,7 @@
 package com.metro.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.metro.beans.User;
 import com.metro.exceptions.InsufficientBalance;
@@ -14,5 +15,5 @@ public interface MetroService {
 	double getBalance(int userId);
 	boolean addBalance(int userId,double bal);
 	boolean swipeOut(String src,String dest, int userId,LocalDateTime swipeInTime) throws InvalidStationException;
-	
+	List<String> getAllStations();
 }

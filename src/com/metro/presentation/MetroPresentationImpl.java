@@ -1,6 +1,7 @@
 package com.metro.presentation;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Scanner;
 
 import com.metro.beans.User;
@@ -61,12 +62,20 @@ public class MetroPresentationImpl implements MetroPresentation {
 				break;
 			}
 			try {
-				System.out.println("Enter source station");
+				List<String> stations = metroService.getAllStations();
+				System.out.println("Enter source station from the list below");
+				stations.stream().forEach(System.out::println);
 				String src = sc.nextLine();
 				LocalDateTime swipeInTime =  metroService.swipeIn(src, userId);
 				System.out.println("You have successfully swiped in at the station " + src);
-				System.out.println("Enter destination station");
+				System.out.println("Enter destination station from the list below. Destination must be ahead of source");
+				stations.stream().forEach(System.out::println);
 				String dest = sc.nextLine();
+				
+				while(stations.indexOf(dest)<stations.indexOf(src)) {
+					System.out.println("Destination must be ahead of source. Please enter correct destination again!");
+					dest = sc.nextLine();
+				}
 				if(!metroService.swipeOut(src,dest,userId,swipeInTime))
 					System.out.println("Swipe Out Failed! Please Swipe In again!");
 				else

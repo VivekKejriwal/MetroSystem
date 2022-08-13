@@ -15,7 +15,7 @@ public class ClientMain {
 			metroPresentation.chooseMenu();
 			int choice = 0;
 			try {
-				choice = Integer.parseInt(sc.next());
+				choice = Integer.parseInt(sc.nextLine());
 			} catch (Exception e) {
 				System.out.println("Invalid input! please enter a number.");
 				System.out.println();

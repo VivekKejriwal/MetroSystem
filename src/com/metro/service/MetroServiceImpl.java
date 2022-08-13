@@ -73,5 +73,10 @@ public class MetroServiceImpl implements MetroService{
 		return true;
 	}
 
+	@Override
+	public List<String> getAllStations() {
+		return metroPersistence.getAllStations();
+	}
+
 
 }
